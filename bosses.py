@@ -4,6 +4,9 @@ import webbrowser
 
 #  Bosses
 #---------------------------------------------------------
+# The bosses are still unconstruction
+# As soon as they are completed
+# Comments will be completed
 class Boss(object):
 
     def enter(self):
@@ -12,6 +15,7 @@ class Boss(object):
 class Minitaurs(Boss):
 
     def enter(self, human, ghosts):
+        webbrowser.open('https://www.youtube.com/watch?v=OwiQwxaGN1k&ab_channel=Tensei017', new=0)
         self.human = human
         self.ghosts = ghosts
         print (self.human)
@@ -192,8 +196,6 @@ class Hydrank(Boss):
 
             completion = True
 
-
-
 class SlimeTime(Boss):
 
     def enter(self):
@@ -201,35 +203,36 @@ class SlimeTime(Boss):
         #Will complete SlimeTime in the future
 
 class Boneniknaks(Boss):
-#Boneniknaks is just a skeleton, on its own.
-#But it has multiple parts that the ghosts can possess
-#Each part has it's own hp, ac, actions, attacks and maybe abilities
-#Parts:
-#----------------------------------
-#1. Head
-#2. Neck and Shoulders
-#3. Abdomen
-#4. Waist
-#5. Right arm
-#6. Left arm
-#7. Mid arm
-#8. Right leg
-#9. Left leg
-#10. Hind leg
-#11. Tail
-#12. "Tongue"
-#-----------------------------------
-#When all of the parts are together, they form Boneniknaks
-#Packs a punch similar to a real strong skeleton
-#Has a similar AC
-#But less HP (equal to a multiple of the bones)
-#When dropped to zero, the human gets a chance to attack the bones
-#With enough damage, can destroy said bones
-#But on the next round, Boneniknaks reforms, but with less HP (equal to a multiple of the bones)
-#The tongue can only be revealed (its basically a blob of sentient death essence) on the last round
-#Then only destroyed
+    #Boneniknaks is just a skeleton, on its own.
+    #But it has multiple parts that the ghosts can possess
+    #Each part has it's own hp, ac, actions, attacks and maybe abilities
+    #Parts:
+    #----------------------------------
+    #1. Head
+    #2. Neck and Shoulders
+    #3. Abdomen
+    #4. Waist
+    #5. Right arm
+    #6. Left arm
+    #7. Mid arm
+    #8. Right leg
+    #9. Left leg
+    #10. Hind leg
+    #11. Tail
+    #12. "Tongue"
+    #-----------------------------------
+    #When all of the parts are together, they form Boneniknaks
+    #Packs a punch similar to a real strong skeleton
+    #Has a similar AC
+    #But less HP (equal to a multiple of the bones)
+    #When dropped to zero, the human gets a chance to attack the bones
+    #With enough damage, can destroy said bones
+    #But on the next round, Boneniknaks reforms, but with less HP (equal to a multiple of the bones)
+    #The tongue can only be revealed (its basically a blob of sentient death essence) on the last round
+    #Then only destroyed
 
     def enter(self, human, ghosts):
+        webbrowser.open('https://www.youtube.com/watch?v=_BaKgJcv9MA&ab_channel=Iemdeath', new=0)
         self.human = human
         self.ghosts = ghosts
         print("Boneniknaks")

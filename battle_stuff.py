@@ -1,6 +1,13 @@
-def battle(victims):
+# INFORMATION
+# ----------------------
+# This file runs the battle section of the game
+# It takes fighters names
+# Elicits their iniatives
+# And runs a simple iniative tracker/battle ending tracker loop
 
-    players = victims
+def battle(fighters):
+
+    players = fighters
     iniatative = []
     turns = []
 
@@ -64,6 +71,8 @@ def battle(victims):
             if battle_over == "y":
                 break  
                 
+
+# This is used for the battle against the Hydrank
 def hydrapult(alight):
     a = alight
     success = False

@@ -1,3 +1,8 @@
+#INDEX
+#--------------------------------------------
+# 1) Imports
+# 2) Rooms
+
 from sys import exit
 from textwrap import dedent
 from random import randint
@@ -7,18 +12,23 @@ import webbrowser
 
 
 
-#  Rooms
-#---------------------------------------------------------
+#  Rooms:
+#---------------------------------------------------
+
+# Base object class of Room
+# Each room is but an object that runs different functions, so doesn't need configuration yet
 class Room(object):
     
     def enter(self):
         print("Not yet configured, implement later")
         exit(1)
 
+# Sorting Room is the first room players enter, used to determine the human and ghosts
+# Call the battle function using the player names
 class SortingRoom(Room):
     
     def enter(self):
-        # webbrowser.open('https://www.youtube.com/watch?v=mIrt5MkGpy0&ab_channel=AdrianvonZiegler', new=0)
+        webbrowser.open('https://www.youtube.com/watch?v=mIrt5MkGpy0&ab_channel=AdrianvonZiegler', new=0)
         player_names = players.get_names()
         input("<Enter>\n")
         # THIS IS THE INTRO FOR THE ROOM
@@ -72,10 +82,13 @@ class SortingRoom(Room):
         battle(fighters)
         players.humanity_check(player_names)  
 
+# Monster Room is the room where the ghosts are monsters
+# Will use the Human's first action to determine whether the ghosts have a surprise round or not
+# Then call the battle function using the human and the monster names
 class MonsterRoom(Room):
     
     def enter(self):
-        # webbrowser.open('https://www.youtube.com/watch?v=OKlEcZ_2dsI&ab_channel=MichaelGhelfi-RPGAmbiences%26Music', new=0)
+        webbrowser.open('https://www.youtube.com/watch?v=OKlEcZ_2dsI&ab_channel=MichaelGhelfi-RPGAmbiences%26Music', new=0)
         ghosts = players.get_ghosts()
         player_names = players.get_names()
         human = players.get_human()
@@ -308,10 +321,13 @@ class MonsterRoom(Room):
             
         input()
 
+# Trap Room is the room where the ghosts are traps
+# Will keep trap of the Human's movement and ghosts trap-placing turns
+# Uses the amount of ghosts to determine the amount of traps each can lay
 class TrapRoom(Room):
     
     def enter(self):
-        # webbrowser.open('https://www.youtube.com/watch?v=Jr9JVhr4R5Q&ab_channel=Fantasy%26WorldMusicbytheFiechters', new=0)
+        webbrowser.open('https://www.youtube.com/watch?v=Jr9JVhr4R5Q&ab_channel=Fantasy%26WorldMusicbytheFiechters', new=0)
         player_names = players.get_names()
         ghosts = players.get_ghosts()
         print("Trap Room")
@@ -356,10 +372,13 @@ class TrapRoom(Room):
 
         players.humanity_check(player_names)
 
+# Restore Room is the room where the human becomes restored
+# Will just print a message of how many dice the human can throw 
+# And which stats it can restore
 class RestoreRoom(Room):
     
     def enter(self):
-        # webbrowser.open('https://www.youtube.com/watch?v=phbQDW0XrdQ&ab_channel=Qumu', new=0)
+        webbrowser.open('https://www.youtube.com/watch?v=phbQDW0XrdQ&ab_channel=Qumu', new=0)
 
         print("Restoration Room")
         input()
@@ -367,10 +386,15 @@ class RestoreRoom(Room):
         print("The human restores 1D10 of health and 1D6 of all charges.")
         input()
 
+# Treasure Rom is the room where the human can obtain treasure
+# Will determine whether the chest and the door are mimics
+# If neither, will randomly generate a treasure for the human
+# If either, will print the rules for the ghosts, the call the battle function
+# using the Human's name and a Mimic
 class TreasureRoom(Room):
     
     def enter(self):
-        # webbrowser.open('https://www.youtube.com/watch?v=TfdXgKdogTM&ab_channel=MichaelGhelfi-RPGAmbiences%26Music', new=0)
+        webbrowser.open('https://www.youtube.com/watch?v=TfdXgKdogTM&ab_channel=MichaelGhelfi-RPGAmbiences%26Music', new=0)
         player_names = players.get_names()
         human = players.get_human()
 
@@ -550,9 +574,12 @@ class TreasureRoom(Room):
 
 
 
-
-
 #  Players
+#---------------------------------------------------
+
+# This method/function (whatever) keeps track of all things player related
+# Has multiple get functions for the players', human's and ghosts' names
+# Also runs the humanity check function
 class Players(object):
     
 
@@ -613,20 +640,30 @@ class Players(object):
 
 
 
-#  The engine that runs the game
-#  Saves the player names
-#  And builds the dungeon
+#  Engine
+#---------------------------------------------------
+
+# The do all and end all of the game, literally
+# Captures and executes the length of the game
+# Randomly generates and enters rooms, making sure not to 
+# repeat rooms soon after it's previous occurance.
+# After going through all the room, randomly generates
+# and enters the Boss Room
 class Engine(object):
     
     def __init__(self, dungeon):
         self.dungeon = dungeon
 
     def play(self):
+        
+        # Setting and running the beginning room
         start_room = self.dungeon.next_room(0)
         start_room.enter()
+
         print("Now")
         input("<Enter>")
 
+        # Elicits and records the length of the game
         print (dedent("""
             Would the players like:
             (1) a short or
@@ -648,44 +685,44 @@ class Engine(object):
                 print("That's not an option... imbescile")
             
             
-
+        # Uses the amount of rooms as a variable for a loop
+        # Keeps track of rooms enterred to avoid frequent repetitions
         print("Building Dungeon")
         input("<Enter>\n")
-
         previous_room = start_room
         room_before = self.dungeon.next_room(3)
 
-        # for x in range(num_of_rooms):
-        #     print("Generating Next room")
-        #     input("<Enter>\n")
-        #     random_room_num = randint(1, 4)
-        #     current_room = self.dungeon.next_room(random_room_num)
+        for x in range(num_of_rooms):
+            print("Generating Next room")
+            input("<Enter>\n")
+            random_room_num = randint(1, 4)
+            current_room = self.dungeon.next_room(random_room_num)
 
-        #     while True:
-        #         if current_room == previous_room or current_room == room_before:
-        #             random_room_num = randint(1, 4)
-        #             current_room = self.dungeon.next_room(random_room_num)
-        #         else:
-        #             break
+            while True:
+                if current_room == previous_room or current_room == room_before:
+                    random_room_num = randint(1, 4)
+                    current_room = self.dungeon.next_room(random_room_num)
+                else:
+                    break
 
-        #     print("Are the players ready?")
-        #     input("Yes(y) or No(n)? ")
-        #     print("Ha! It doesn't matter!")
-        #     input("<Enter>\n")
+            print("Get ready to enter the next Room")
+            input("<Enter>\n")
 
-        #     #-------------------------------------------
-        #     #Test Function
-        #     #-------------------------------------------
-        #     test_room = dungeon.next_room(4)
-        #     test_room.enter()
-        #     #-------------------------------------------
+            # # Uncomment this to test a room
+            # #-------------------------------------------
+            # #Test Function
+            # #-------------------------------------------
+            # test_room = dungeon.next_room(4)
+            # test_room.enter()
+            # #-------------------------------------------
 
-        #     current_room.enter()
-        #     room_before = previous_room
-        #     previous_room = current_room
+            current_room.enter()
+            room_before = previous_room
+            previous_room = current_room
 
-
-        input("Well done")
+        # Generates a number to determine the boss room
+        # Then Enters the boss room
+        input("Well done")#This must be a message once all the rooms have been completed
         boss_number = randint(1,3)
         
         if boss_number == 1:
@@ -701,6 +738,11 @@ class Engine(object):
 
 
 
+# Dungeon
+#----------------------------------------------------
+
+# The methodunction keeping the names of the rooms
+# Contains the functod that returns the name of the next room
 class Dungeon(object):
     rooms = {
         0 : SortingRoom(),
@@ -717,7 +759,22 @@ class Dungeon(object):
         val = Dungeon.rooms.get(room_number)
         return val
 
-# webbrowser.open('https://www.youtube.com/watch?v=VBlFHuCzPgY&ab_channel=AntoineB', new=0)
+
+# STARTUP
+#----------------------------------------------------
+
+# This is what happens when the app is first started.
+# 1) It prints a welcome message
+# 2) Elicits the amount of players and their names
+# 3) Initialises the Players function with the player names
+# 4) Initialises the Dungeon function
+# 5) Initialises the Engine function with the Dungeon
+# 6) Plays the game
+# 7) Elicits the winner of the game
+# 8) Prints and ending message
+
+
+webbrowser.open('https://www.youtube.com/watch?v=VBlFHuCzPgY&ab_channel=AntoineB', new=0)
 print("Welcome Message")
 input()
 print("How many players?")
@@ -748,3 +805,30 @@ players = Players(player_names)
 dungeon = Dungeon(0)
 game = Engine(dungeon)
 game.play()
+
+# At the end some really sad music plays, and the players get like a horrible game over song
+webbrowser.open('https://www.youtube.com/watch?v=RYf-QgpZXaA&t=652s&ab_channel=SoulCandle', new=0)
+print (dedent("""
+    Who won?
+    1. The Human
+    2. The Ghosts
+    Type only the number
+"""))
+while True:
+    try:
+        winner = int(input())
+        if winner == 1:
+            print ("You have successfully conquered the dungeon...")
+            print ("And now... here you are... Powerful. But in the middle of nowhere.")
+        elif winner == 2:
+            print ("You have successfully prevented the human from conquering the dungeon.")
+            print ("And now.. here you are... A ghost in an evil dungeon.")
+            print ("All alone. Just you. Alone.")
+        else:
+            raise ValueError
+            
+        break
+    except ValueError:
+        print("Fkn read! Thats not '1' or '2'.")
+        print("Try again:")
+
